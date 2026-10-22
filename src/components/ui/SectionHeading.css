@@ -1,0 +1,17 @@
+.section-heading__title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 1.375rem;
+  font-weight: 300;
+}
+
+.section-heading__title strong {
+  font-weight: 700;
+}
+
+.section-heading__subtitle {
+  margin-top: 8px;
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+}

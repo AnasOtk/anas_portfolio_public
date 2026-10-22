@@ -1,0 +1,74 @@
+.garden {
+  display: flex;
+  flex-direction: column;
+  gap: 160px;
+  padding-top: 160px;
+  overflow: hidden;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-garden-bg);
+}
+
+.garden__title {
+  padding-inline: 24px;
+  font-size: 0.9375rem;
+  text-align: center;
+}
+
+.garden__highlight {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.garden__scene {
+  position: relative;
+}
+
+/* Les tiges descendent de 14px sous le bord du sable pour être « plantées » */
+.garden__flowers {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  padding-inline: 12px;
+  margin-bottom: -14px;
+}
+
+.garden__soil {
+  position: relative;
+  z-index: 1;
+  height: 32px;
+  background-color: var(--color-soil);
+  background-image:
+    radial-gradient(circle at 12% 40%, var(--color-soil-speck) 1px, transparent 1.5px),
+    radial-gradient(circle at 48% 65%, var(--color-soil-speck) 1px, transparent 1.5px),
+    radial-gradient(circle at 83% 35%, var(--color-soil-speck) 1px, transparent 1.5px);
+  background-size: 90px 32px;
+}
+
+/* Bord supérieur ondulé du sable */
+.garden__soil::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: 0;
+  left: 0;
+  height: 8px;
+  background: radial-gradient(
+      circle at 12px 8px,
+      var(--color-soil) 11px,
+      transparent 12px
+    )
+    repeat-x;
+  background-size: 24px 8px;
+}
+
+@media (max-width: 700px) {
+  .garden__flowers {
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+
+  .flower {
+    flex-shrink: 0;
+  }
+}

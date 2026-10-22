@@ -1,0 +1,230 @@
+/* Position (translate), orientation (--cat-flip) et état (data-state) sont
+   pilotés par useCatBehavior : walking, pouncing, carried, falling, landing. */
+.cat {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  z-index: 2;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  will-change: transform;
+  transform-origin: 50% 100%;
+  /* Les chats apparaissent une fois les fleurs écloses (opacité seulement :
+     le transform est écrit à chaque frame par useCatBehavior) */
+  opacity: 0;
+  transition: opacity 0.8s ease 1.4s;
+}
+
+[data-revealed] .cat {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cat {
+    opacity: 1;
+    transition: none;
+  }
+}
+
+.cat[data-state="carried"] {
+  cursor: grabbing;
+}
+
+/* Le corps pivote autour de la nuque et sort du cadre du viewBox : sans
+   overflow visible, le SVG le rogne. */
+.cat__svg {
+  overflow: visible;
+  transform: scaleX(var(--cat-flip, 1));
+  transform-origin: 50% 100%;
+  transition: transform 0.25s ease;
+}
+
+/* Les groupes pivotent autour de la nuque (52px 12px dans le viewBox) */
+.cat__swing,
+.cat__pose,
+.cat__head {
+  transform-box: view-box;
+  transform-origin: 52px 12px;
+}
+
+.cat__pose {
+  transform: rotate(var(--cat-tilt, 0deg));
+  transition: transform 0.2s ease-out;
+}
+
+/* La tête contre-tourne pour rester à l'horizontale, tournée vers l'avant */
+.cat__head {
+  transform: rotate(var(--cat-head-tilt, 0deg));
+  transition: transform 0.2s ease-out;
+}
+
+.cat__torso,
+.cat__head > * {
+  fill: var(--cat-color);
+}
+
+.cat__head > .cat__eye {
+  fill: var(--cat-eye, #fff);
+}
+
+.cat__spot,
+.cat__head > .cat__spot {
+  fill: var(--cat-spot);
+}
+
+.cat__leg {
+  fill: var(--cat-color);
+  filter: brightness(0.88);
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  transition: transform 0.2s ease-out;
+}
+
+.cat__tail {
+  fill: none;
+  stroke: var(--cat-color);
+  stroke-width: 4;
+  stroke-linecap: round;
+  transform-box: fill-box;
+  transform-origin: 100% 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Marche */
+  .cat__body {
+    animation: cat-bob 0.5s ease-in-out infinite alternate;
+  }
+
+  .cat__leg--a {
+    animation: cat-step 0.5s ease-in-out infinite alternate;
+  }
+
+  .cat__leg--b {
+    animation: cat-step 0.5s ease-in-out infinite alternate-reverse;
+  }
+
+  .cat__tail {
+    animation: cat-tail 1.4s ease-in-out infinite alternate;
+  }
+
+  /* Bond : pattes avant tendues, pattes arrière en arrière, tête relevée */
+  .cat[data-state="pouncing"] {
+    --cat-tilt: -14deg;
+  }
+
+  .cat[data-state="pouncing"] .cat__leg--front {
+    transform: rotate(-55deg);
+  }
+
+  .cat[data-state="pouncing"] .cat__leg--back {
+    transform: rotate(45deg);
+  }
+
+  /* Porté par la nuque : le corps pend sous la prise en se balançant, les
+     pattes ballantes, la tête reste en avant */
+  .cat[data-state="carried"] {
+    --cat-tilt: -75deg;
+    --cat-head-tilt: 75deg;
+  }
+
+  .cat[data-state="carried"] .cat__pose,
+  .cat[data-state="carried"] .cat__head {
+    transition-duration: 0.3s;
+  }
+
+  .cat[data-state="carried"] .cat__swing {
+    animation: cat-swing 1.1s ease-in-out infinite alternate;
+  }
+
+  .cat[data-state="carried"] .cat__leg--a {
+    animation: cat-limp 0.9s ease-in-out infinite alternate;
+  }
+
+  .cat[data-state="carried"] .cat__leg--b {
+    animation: cat-limp 0.9s ease-in-out infinite alternate-reverse;
+  }
+
+  /* Chute : le chat se retourne (réflexe de redressement) et écarte les pattes.
+     Le redressement est court pour être terminé avant d'atteindre le sol. */
+  .cat[data-state="falling"] .cat__leg--front {
+    transform: rotate(-38deg);
+  }
+
+  .cat[data-state="falling"] .cat__leg--back {
+    transform: rotate(34deg);
+  }
+
+  /* Atterrissage : posture finalisée immédiatement, puis bref écrasement.
+     L'écrasement va sur le SVG et surtout pas sur .cat : la propriété scale
+     s'applique avant transform, elle multiplierait donc aussi le translate(x, y)
+     posé par le JS et décalerait le chat de 12 % de sa position x. */
+  .cat[data-state="landing"] .cat__svg {
+    scale: 1.12 0.78;
+  }
+
+  .cat[data-state="landing"] .cat__pose,
+  .cat[data-state="landing"] .cat__head,
+  .cat[data-state="landing"] .cat__leg {
+    transition-duration: 0.06s;
+  }
+
+  .cat[data-state="pouncing"] .cat__body,
+  .cat[data-state="carried"] .cat__body,
+  .cat[data-state="landing"] .cat__body,
+  .cat[data-state="pouncing"] .cat__leg,
+  .cat[data-state="falling"] .cat__leg,
+  .cat[data-state="landing"] .cat__leg {
+    animation: none;
+  }
+}
+
+@keyframes cat-step {
+  from {
+    transform: rotate(-26deg);
+  }
+
+  to {
+    transform: rotate(26deg);
+  }
+}
+
+@keyframes cat-bob {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-1.5px);
+  }
+}
+
+@keyframes cat-tail {
+  from {
+    transform: rotate(-8deg);
+  }
+
+  to {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes cat-swing {
+  from {
+    transform: rotate(-7deg);
+  }
+
+  to {
+    transform: rotate(7deg);
+  }
+}
+
+@keyframes cat-limp {
+  from {
+    transform: rotate(58deg);
+  }
+
+  to {
+    transform: rotate(74deg);
+  }
+}

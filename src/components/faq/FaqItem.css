@@ -1,0 +1,78 @@
+.faq-item {
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-surface-muted);
+}
+
+.faq-item__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: 20px 16px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.faq-item__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-surface);
+}
+
+/* Le « + » est dessiné en SVG (pas en texte, dont les métriques décalent le
+   glyphe vers le bas) ; ouvert, il pivote de 45° et devient un « × » */
+.faq-item__icon svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  transition: transform 0.2s ease;
+}
+
+.faq-item__trigger[aria-expanded="true"] .faq-item__icon {
+  background: var(--color-text);
+  color: var(--color-surface);
+}
+
+.faq-item__trigger[aria-expanded="true"] .faq-item__icon svg {
+  transform: rotate(45deg);
+}
+
+.faq-item__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 720px;
+  padding: 0 16px 20px;
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+}
+
+.faq-item__panel[hidden] {
+  display: none;
+}
+
+.faq-item__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  list-style: none;
+}
+
+.faq-item__links a {
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: underline;
+}

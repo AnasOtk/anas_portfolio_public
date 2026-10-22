@@ -1,0 +1,90 @@
+/* Les fleurs poussent depuis le sol, l'une après l'autre. La croissance passe
+   par la propriété scale (et non transform) pour cohabiter avec l'animation de
+   balancement. */
+.flower {
+  width: auto;
+  overflow: visible;
+  transform-origin: 50% 100%;
+  scale: 1 0;
+  transition: scale 0.9s cubic-bezier(0.2, 1.25, 0.4, 1);
+  transition-delay: calc(0.25s + var(--reveal-index, 0) * 0.08s);
+}
+
+[data-revealed] .flower {
+  scale: 1 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flower {
+    scale: 1 1;
+    transition: none;
+  }
+}
+
+/* --flower-color : pétales, --flower-core : cœur et points,
+   --flower-stroke : liseré qui détache les têtes claires du fond */
+.flower--yellow {
+  --flower-color: #f6c945;
+}
+
+.flower--green {
+  --flower-color: #86d17a;
+}
+
+.flower--white {
+  --flower-color: #fff;
+  --flower-core: #f6c945;
+  --flower-stroke: #cfd3e3;
+}
+
+.flower--blue {
+  --flower-color: #5aa9f0;
+}
+
+.flower--pink {
+  --flower-color: #f48fb1;
+}
+
+.flower__head > * {
+  fill: var(--flower-color);
+  stroke: var(--flower-stroke, none);
+  stroke-width: 1;
+}
+
+.flower__head .flower__dot,
+.flower__head .flower__core {
+  fill: var(--flower-core, #fff);
+  stroke: none;
+}
+
+.flower__stem {
+  fill: none;
+  stroke: #7fb08a;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.flower__leaf {
+  fill: #4f8a5b;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .flower {
+    animation: flower-sway 5s ease-in-out infinite alternate;
+  }
+
+  .flower:nth-child(odd) {
+    animation-duration: 6.5s;
+    animation-delay: -2s;
+  }
+}
+
+@keyframes flower-sway {
+  from {
+    transform: rotate(-1.5deg);
+  }
+
+  to {
+    transform: rotate(1.5deg);
+  }
+}

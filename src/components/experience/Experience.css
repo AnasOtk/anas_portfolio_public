@@ -1,0 +1,12 @@
+.experience {
+  padding-block: 40px 80px;
+}
+
+.experience__heading {
+  padding-block: 24px 40px;
+}
+
+.experience__list {
+  border-top: 1px solid var(--color-border);
+  list-style: none;
+}
