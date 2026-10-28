@@ -1,4 +1,4 @@
-import cvUrl from "../assets/CV Anas Dalal.pdf";
+import cvUrl from "../assets/CV_Anas_Dalal_DevSecOps_2026.pdf";
 import type {
   ExperienceEntry,
   FaqEntry,
@@ -19,7 +19,7 @@ export const CANVAS_INITIAL_OFFSET: Point = { x: 24, y: 24 };
 export const OWNER_NAME = "Anas Dalal";
 export const EMAIL = "anas_dalal@hotmail.com";
 export const CV_URL = cvUrl;
-export const LINKEDIN_URL = "https://www.linkedin.com/in/anasdalal";
+export const LINKEDIN_URL = "https://www.linkedin.com/in/anas-dalal-440514447";
 
 
 export const HERO_BADGE = "À la recherche d'un poste DevSecOps, AppSec ou SOC";
