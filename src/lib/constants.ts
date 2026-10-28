@@ -17,7 +17,7 @@ export const REVEAL_ROOT_MARGIN = "0px 0px -8% 0px";
 export const CANVAS_INITIAL_OFFSET: Point = { x: 24, y: 24 };
 
 export const OWNER_NAME = "Anas Dalal";
-export const EMAIL = "anas_dalal@hotmail.com";
+export const EMAIL = "anasdalal.pro@gmail.com";
 export const CV_URL = cvUrl;
 export const LINKEDIN_URL = "https://www.linkedin.com/in/anas-dalal-440514447";
 
